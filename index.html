@@ -286,7 +286,7 @@ You manage 4 tables:
    Relationship Stage: "Cold" | "Warm" | "Active" | "Advocate"
 
 2. APPLICATIONS — one record per job opening, ever
-   Fields: Company, Role, "Current Status", "Date Applied", "Job URL", "Job Description", Notes
+   Fields: Company, Role, "Current Status", "Date Applied" (only include if explicitly known, YYYY-MM-DD), "Job URL", "Job Description", Notes
    Current Status: "Researching" | "Applied" | "Phone Screen" | "Interview" | "Final Round" | "Offer" | "Rejected" | "Declined" | "Withdrawn"
 
 3. ACTIVITY LOG — one record per interaction (ALWAYS create this)
@@ -323,6 +323,7 @@ Rules:
 - Create an Application when a specific role/company is mentioned
 - Create a Follow-up when follow-up is mentioned or strongly implied
 - Calculate due dates from today: "in 5 days" = +5, "next week" = +7, "end of week" = next Friday
+- NEVER include a date field with an empty string — omit the field entirely if the date is unknown
 - Only output raw JSON, nothing else`;
 
 let pendingUpdate = null;
@@ -515,6 +516,13 @@ async function sendToAirtable() {
   for (const u of otherUpdates) {
     try {
       const fields = { ...u.fields };
+
+      // Strip any empty string values — Airtable rejects empty date/select fields
+      Object.keys(fields).forEach(k => {
+        if (fields[k] === '' || fields[k] === null || fields[k] === undefined) {
+          delete fields[k];
+        }
+      });
 
       // Activity Log: replace Contact Name with linked record, strip Company/Role
       if (u.table === 'Activity Log') {
