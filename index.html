@@ -448,6 +448,15 @@ function showPending(parsed) {
   document.getElementById('pendingCard').style.display = 'block';
 }
 
+// Strip empty/null/undefined values from fields before sending to Airtable
+function stripEmpty(fields) {
+  const clean = {};
+  Object.entries(fields).forEach(([k, v]) => {
+    if (v !== '' && v !== null && v !== undefined) clean[k] = v;
+  });
+  return clean;
+}
+
 async function sendToAirtable() {
   if (!pendingUpdate) return;
   const pat = localStorage.getItem('crm_pat');
@@ -482,7 +491,7 @@ async function sendToAirtable() {
         const res = await fetch(`https://api.airtable.com/v0/${base}/Contacts`, {
           method: 'POST',
           headers: { 'Authorization': `Bearer ${pat}`, 'Content-Type': 'application/json' },
-          body: JSON.stringify({ fields: u.fields })
+          body: JSON.stringify({ fields: stripEmpty(u.fields) })
         });
         const json = await res.json();
         if (json.id) {
@@ -562,7 +571,7 @@ async function sendToAirtable() {
       const res = await fetch(`https://api.airtable.com/v0/${base}/${encodeURIComponent(u.table)}`, {
         method: 'POST',
         headers: { 'Authorization': `Bearer ${pat}`, 'Content-Type': 'application/json' },
-        body: JSON.stringify({ fields })
+        body: JSON.stringify({ fields: stripEmpty(fields) })
       });
       const json = await res.json();
       results.push(json.id ? { table: u.table, success: true } : { table: u.table, success: false, error: json.error?.message || 'Unknown' });
