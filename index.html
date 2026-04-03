@@ -229,7 +229,7 @@
       <div>
         <div class="step-title">Table: <code>Contacts</code> — one record per person, ever</div>
         <div class="step-detail">
-          <code>Name</code> · <code>Company</code> · <code>Role</code> · <code>How You Know Them</code> · <code>Notes</code> (Long text) · <code>Relationship Stage</code> (Single select: Cold / Warm / Active / Advocate)
+          <code>Name</code> · <code>Company</code> · <code>Role</code> · <code>How You Know Them</code> · <code>Notes</code> (Long text) · <code>Relationship Stage</code> (Single select: Cold / Warm / Active / Advocate) · <code>Priority</code> (Single select: High / Medium / Low) · <code>Status</code> (Single select: Done / Reached Out / Not Reached Out / Scheduled / Follow Up) · <code>Type</code> (Single select: Networking / Company / Recruiter)
         </div>
       </div>
     </div>
@@ -283,8 +283,11 @@ const SYSTEM_PROMPT = `You are a job search CRM assistant. Parse the user's plai
 You manage 4 tables:
 
 1. CONTACTS — one record per person, ever
-   Fields: Name, Company, Role, "How You Know Them", Notes, "Relationship Stage"
+   Fields: Name, Company, Role, "How You Know Them", Notes, "Relationship Stage", Priority, Status, Type
    Relationship Stage: "Cold" | "Warm" | "Active" | "Advocate"
+   Priority: "High" | "Medium" | "Low"
+   Status: "Done" | "Reached Out" | "Not Reached Out" | "Scheduled" | "Follow Up"
+   Type: "Networking" | "Company" | "Recruiter"
 
 2. APPLICATIONS — one record per job opening, ever
    Fields: Company, Role, "Current Status", "Date Applied" (only include if explicitly known, YYYY-MM-DD), "Job URL", "Job Description", Notes
