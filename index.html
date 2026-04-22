@@ -26,6 +26,9 @@
     --green-bg: rgba(106,191,122,0.1);
     --red: #BF7A7A;
     --red-bg: rgba(191,122,122,0.1);
+    --blue: #6A9FBF;
+    --blue-faint: rgba(106,159,191,0.08);
+    --purple: #9F6ABF;
   }
 
   html, body { background: var(--bg); color: var(--text); font-family: 'EB Garamond', Georgia, serif; font-size: 16px; line-height: 1.6; }
@@ -46,7 +49,7 @@
   .config-btn.needs-setup { background: var(--gold); border-color: var(--gold); color: var(--bg); }
 
   .tabs { display: flex; border: 1px solid var(--border2); border-radius: 6px; overflow: hidden; margin-bottom: 28px; animation: fadeUp 0.5s 0.05s ease both; }
-  .tab-btn { flex: 1; padding: 11px 0; background: transparent; border: none; color: var(--text-muted); font-family: 'DM Mono', monospace; font-size: 11px; letter-spacing: 0.1em; text-transform: uppercase; cursor: pointer; transition: all 0.18s; }
+  .tab-btn { flex: 1; padding: 11px 0; background: transparent; border: none; color: var(--text-muted); font-family: 'DM Mono', monospace; font-size: 10px; letter-spacing: 0.1em; text-transform: uppercase; cursor: pointer; transition: all 0.18s; }
   .tab-btn.active { background: var(--gold); color: var(--bg); }
   .tab-btn:not(.active):hover { color: var(--text); background: var(--surface2); }
 
@@ -54,40 +57,65 @@
   .config-label { font-family: 'DM Mono', monospace; font-size: 10px; letter-spacing: 0.18em; text-transform: uppercase; color: var(--text-dim); margin-bottom: 18px; }
   .field-group { margin-bottom: 14px; }
   .field-label { font-family: 'DM Mono', monospace; font-size: 11px; letter-spacing: 0.05em; color: var(--text-muted); display: block; margin-bottom: 6px; }
-  input { width: 100%; background: #111110; border: 1px solid var(--border2); border-radius: 4px; padding: 10px 12px; color: var(--text); font-size: 13px; font-family: 'DM Mono', monospace; outline: none; transition: border-color 0.15s; }
-  input:focus { border-color: var(--gold); }
+  input, select { width: 100%; background: #111110; border: 1px solid var(--border2); border-radius: 4px; padding: 10px 12px; color: var(--text); font-size: 13px; font-family: 'DM Mono', monospace; outline: none; transition: border-color 0.15s; }
+  input:focus, select:focus { border-color: var(--gold); }
   input::placeholder { color: var(--text-dim); }
+  select option { background: #111110; }
   .config-note { font-size: 12px; color: var(--text-dim); line-height: 1.7; margin-bottom: 16px; font-style: italic; }
   .config-note a { color: var(--gold); text-decoration: none; }
 
+  /* Input card + voice */
   .input-card { background: var(--surface); border: 1px solid var(--border2); border-radius: 8px; overflow: hidden; margin-bottom: 24px; animation: fadeUp 0.5s 0.1s ease both; transition: border-color 0.2s; }
   .input-card:focus-within { border-color: #555040; }
   textarea { width: 100%; background: transparent; border: none; outline: none; color: var(--text); font-size: 15px; font-family: 'EB Garamond', Georgia, serif; padding: 20px 22px; resize: none; line-height: 1.65; min-height: 110px; }
   textarea::placeholder { color: var(--text-dim); font-style: italic; }
-  .input-footer { display: flex; justify-content: space-between; align-items: center; padding: 10px 16px; border-top: 1px solid var(--border); }
-  .input-hint { font-family: 'DM Mono', monospace; font-size: 10px; color: var(--text-dim); letter-spacing: 0.05em; }
+  .input-footer { display: flex; justify-content: space-between; align-items: center; padding: 10px 16px; border-top: 1px solid var(--border); gap: 10px; }
+  .input-hint { font-family: 'DM Mono', monospace; font-size: 10px; color: var(--text-dim); letter-spacing: 0.05em; flex: 1; }
+  .input-actions { display: flex; gap: 8px; align-items: center; }
+
+  /* Mic button */
+  .mic-btn { background: transparent; border: 1px solid var(--border2); border-radius: 4px; width: 34px; height: 34px; display: flex; align-items: center; justify-content: center; cursor: pointer; transition: all 0.15s; color: var(--text-dim); flex-shrink: 0; }
+  .mic-btn:hover { border-color: var(--gold); color: var(--gold); }
+  .mic-btn.recording { border-color: var(--red); color: var(--red); background: var(--red-bg); animation: pulse 1.2s ease infinite; }
+  .mic-btn.unsupported { opacity: 0.3; cursor: not-allowed; }
+  @keyframes pulse { 0%,100% { box-shadow: 0 0 0 0 rgba(191,122,122,0.4); } 50% { box-shadow: 0 0 0 5px rgba(191,122,122,0); } }
 
   .btn-primary { background: var(--gold); border: none; border-radius: 4px; padding: 9px 20px; color: var(--bg); font-size: 14px; font-family: 'EB Garamond', Georgia, serif; cursor: pointer; transition: opacity 0.15s; }
   .btn-primary:hover { opacity: 0.86; }
   .btn-primary:disabled { opacity: 0.35; cursor: not-allowed; }
   .btn-ghost { background: transparent; border: 1px solid var(--border2); border-radius: 4px; padding: 9px 16px; color: var(--text-muted); font-size: 14px; font-family: 'EB Garamond', Georgia, serif; cursor: pointer; transition: all 0.15s; }
   .btn-ghost:hover { border-color: var(--text-muted); color: var(--text); }
+  .btn-sm { padding: 5px 12px; font-size: 13px; }
 
+  /* Pending card */
   .pending-card { background: var(--surface); border: 1px solid rgba(212,170,106,0.35); border-radius: 8px; overflow: hidden; margin-bottom: 24px; animation: fadeUp 0.25s ease both; }
   .pending-header { background: var(--gold-faint); padding: 12px 20px; border-bottom: 1px solid rgba(212,170,106,0.18); display: flex; justify-content: space-between; align-items: center; gap: 16px; }
   .pending-tag { font-family: 'DM Mono', monospace; font-size: 10px; letter-spacing: 0.15em; text-transform: uppercase; color: var(--gold); }
   .pending-summary { font-size: 13px; color: var(--text-muted); font-style: italic; text-align: right; flex: 1; }
   .pending-body { padding: 16px 20px; }
   .record-block { background: #111110; border-radius: 6px; border-left: 3px solid rgba(212,170,106,0.4); padding: 12px 14px; margin-bottom: 10px; }
-  .record-meta { display: flex; gap: 8px; align-items: center; margin-bottom: 10px; }
+  .record-meta { display: flex; gap: 8px; align-items: center; margin-bottom: 10px; flex-wrap: wrap; }
   .record-table-tag { font-family: 'DM Mono', monospace; font-size: 10px; letter-spacing: 0.12em; text-transform: uppercase; padding: 2px 8px; border-radius: 3px; }
   .record-action-tag { font-family: 'DM Mono', monospace; font-size: 10px; color: var(--text-dim); text-transform: uppercase; letter-spacing: 0.1em; }
   .record-fields { display: flex; flex-wrap: wrap; gap: 6px 20px; }
   .field-item { font-size: 13px; }
   .field-key { color: var(--text-muted); }
   .field-val { color: var(--text); }
-  .pending-actions { padding: 4px 20px 18px; display: flex; gap: 10px; }
+  .pending-actions { padding: 4px 20px 18px; display: flex; gap: 10px; flex-wrap: wrap; }
 
+  /* Diff view for edit confirmation */
+  .diff-table { width: 100%; border-collapse: collapse; font-size: 12px; margin-top: 8px; }
+  .diff-table th { font-family: 'DM Mono', monospace; font-size: 10px; letter-spacing: 0.1em; text-transform: uppercase; color: var(--text-dim); padding: 4px 8px; text-align: left; border-bottom: 1px solid var(--border); }
+  .diff-table td { padding: 5px 8px; vertical-align: top; border-bottom: 1px solid rgba(53,53,48,0.5); }
+  .diff-table td:first-child { color: var(--text-muted); font-family: 'DM Mono', monospace; font-size: 11px; width: 30%; }
+  .diff-old { color: var(--red); background: var(--red-bg); border-radius: 3px; padding: 1px 4px; }
+  .diff-new { color: var(--green); background: var(--green-bg); border-radius: 3px; padding: 1px 4px; }
+  .diff-unchanged { color: var(--text-muted); }
+  .edit-toggle { display: flex; gap: 0; border: 1px solid var(--border2); border-radius: 4px; overflow: hidden; margin-left: auto; }
+  .edit-toggle-btn { background: transparent; border: none; padding: 3px 10px; font-family: 'DM Mono', monospace; font-size: 10px; letter-spacing: 0.08em; color: var(--text-dim); cursor: pointer; transition: all 0.15s; }
+  .edit-toggle-btn.active { background: var(--surface2); color: var(--text); }
+
+  /* Log */
   .log-eyebrow { font-family: 'DM Mono', monospace; font-size: 10px; letter-spacing: 0.18em; text-transform: uppercase; color: var(--text-dim); margin-bottom: 12px; }
   .log-entries { display: flex; flex-direction: column; gap: 8px; }
   .log-entry { padding: 10px 14px; border-radius: 6px; font-size: 14px; line-height: 1.5; animation: fadeUp 0.2s ease both; }
@@ -101,12 +129,46 @@
   .example-btn { width: 100%; background: transparent; border: 1px solid var(--border); border-radius: 6px; padding: 12px 16px; text-align: left; color: var(--text-dim); font-size: 14px; font-family: 'EB Garamond', Georgia, serif; font-style: italic; line-height: 1.55; cursor: pointer; transition: all 0.15s; margin-bottom: 8px; }
   .example-btn:hover { border-color: var(--border2); color: var(--text-muted); background: var(--surface); }
 
+  /* Recap */
   .recap-row { display: flex; gap: 12px; align-items: flex-end; flex-wrap: wrap; margin-bottom: 14px; }
   .recap-row > div { flex: 1; min-width: 130px; }
   .quick-btns { display: flex; gap: 8px; flex-wrap: wrap; }
   .quick-btn { background: transparent; border: 1px solid var(--border2); border-radius: 4px; padding: 5px 12px; color: var(--text-muted); font-family: 'DM Mono', monospace; font-size: 10px; letter-spacing: 0.08em; cursor: pointer; transition: all 0.15s; }
   .quick-btn:hover { border-color: var(--gold); color: var(--gold); }
 
+  /* Needs Attention */
+  .attention-card { background: var(--surface); border: 1px solid var(--border2); border-radius: 8px; padding: 16px 18px; margin-bottom: 10px; display: flex; gap: 14px; align-items: flex-start; transition: border-color 0.15s; }
+  .attention-card:hover { border-color: var(--border2); }
+  .tier-badge { font-family: 'DM Mono', monospace; font-size: 9px; letter-spacing: 0.14em; text-transform: uppercase; padding: 3px 8px; border-radius: 3px; flex-shrink: 0; margin-top: 3px; }
+  .tier-overdue { background: var(--red-bg); color: var(--red); border: 1px solid rgba(191,122,122,0.3); }
+  .tier-active { background: rgba(212,170,106,0.12); color: var(--gold); border: 1px solid rgba(212,170,106,0.3); }
+  .tier-warm { background: rgba(106,159,191,0.1); color: var(--blue); border: 1px solid rgba(106,159,191,0.3); }
+  .tier-cold { background: var(--surface2); color: var(--text-dim); border: 1px solid var(--border); }
+  .attention-main { flex: 1; min-width: 0; }
+  .attention-name { font-size: 15px; color: var(--text); margin-bottom: 2px; }
+  .attention-meta { font-size: 13px; color: var(--text-muted); margin-bottom: 6px; }
+  .attention-last { font-size: 12px; color: var(--text-dim); font-style: italic; }
+  .attention-actions { display: flex; gap: 6px; margin-top: 10px; flex-wrap: wrap; }
+  .snooze-select { background: #111110; border: 1px solid var(--border2); border-radius: 4px; padding: 4px 8px; color: var(--text-muted); font-family: 'DM Mono', monospace; font-size: 10px; cursor: pointer; width: auto; }
+  .days-since { font-family: 'DM Mono', monospace; font-size: 10px; color: var(--text-dim); margin-top: 3px; white-space: nowrap; }
+  .section-header { font-family: 'DM Mono', monospace; font-size: 10px; letter-spacing: 0.18em; text-transform: uppercase; color: var(--text-dim); margin: 20px 0 10px; padding-bottom: 8px; border-bottom: 1px solid var(--border); }
+  .empty-state { padding: 32px; text-align: center; color: var(--text-dim); font-style: italic; font-size: 14px; border: 1px dashed var(--border); border-radius: 8px; }
+
+  /* Gmail sync */
+  .gmail-thread { background: var(--surface); border: 1px solid var(--border2); border-radius: 8px; padding: 14px 18px; margin-bottom: 10px; }
+  .gmail-thread-header { display: flex; justify-content: space-between; align-items: flex-start; gap: 12px; margin-bottom: 8px; }
+  .gmail-subject { font-size: 14px; color: var(--text); }
+  .gmail-meta { font-family: 'DM Mono', monospace; font-size: 10px; color: var(--text-dim); white-space: nowrap; }
+  .gmail-snippet { font-size: 13px; color: var(--text-muted); font-style: italic; margin-bottom: 10px; }
+  .gmail-parsed { background: #111110; border-radius: 6px; padding: 10px 12px; margin-top: 8px; }
+  .gmail-parsed-fields { display: flex; flex-wrap: wrap; gap: 4px 16px; }
+  .gmail-actions { display: flex; gap: 8px; margin-top: 10px; }
+  .gmail-status { font-family: 'DM Mono', monospace; font-size: 10px; padding: 2px 8px; border-radius: 3px; }
+  .gmail-status.queued { background: var(--gold-faint); color: var(--gold); border: 1px solid rgba(212,170,106,0.3); }
+  .gmail-status.skipped { background: var(--surface2); color: var(--text-dim); border: 1px solid var(--border); }
+  .gmail-status.saved { background: var(--green-bg); color: var(--green); border: 1px solid rgba(106,191,122,0.3); }
+
+  /* Setup guide */
   .setup-guide { border-top: 1px solid var(--border); padding-top: 36px; margin-top: 32px; }
   .step-row { display: flex; gap: 16px; margin-bottom: 20px; }
   .step-num { width: 24px; height: 24px; border-radius: 50%; background: var(--surface2); border: 1px solid var(--border2); display: flex; align-items: center; justify-content: center; font-family: 'DM Mono', monospace; font-size: 10px; color: var(--text-muted); flex-shrink: 0; margin-top: 2px; }
@@ -158,17 +220,26 @@
   <div class="tabs">
     <button class="tab-btn active" id="tabLog" onclick="switchTab('log')">Log Entry</button>
     <button class="tab-btn" id="tabRecap" onclick="switchTab('recap')">Weekly Recap</button>
+    <button class="tab-btn" id="tabAttention" onclick="switchTab('attention')">Needs Attention</button>
+    <button class="tab-btn" id="tabGmail" onclick="switchTab('gmail')">Gmail Sync</button>
   </div>
 
-  <!-- LOG ENTRY PANEL -->
+  <!-- ── LOG ENTRY ── -->
   <div id="panelLog">
     <div class="input-card">
       <textarea id="mainInput" rows="4"
         placeholder="Tell me what happened… e.g. 'Had a second call with Marcus at Ketchum — more of a formal screen this time for the VP Training role. Really positive. Follow up in 4 days.'"
       ></textarea>
       <div class="input-footer">
-        <span class="input-hint">↵ Enter to parse &nbsp;·&nbsp; Shift+Enter for new line</span>
-        <button class="btn-primary" id="parseBtn" onclick="parseInput()" disabled>Parse →</button>
+        <span class="input-hint" id="inputHint">↵ Enter to parse · Shift+Enter for new line</span>
+        <div class="input-actions">
+          <button class="mic-btn" id="micBtn" onclick="toggleVoice()" title="Click to speak">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <path d="M12 2a3 3 0 0 1 3 3v7a3 3 0 0 1-6 0V5a3 3 0 0 1 3-3z"/><path d="M19 10v2a7 7 0 0 1-14 0v-2"/><line x1="12" y1="19" x2="12" y2="22"/>
+            </svg>
+          </button>
+          <button class="btn-primary" id="parseBtn" onclick="parseInput()" disabled>Parse →</button>
+        </div>
       </div>
     </div>
 
@@ -189,22 +260,14 @@
     </div>
   </div>
 
-  <!-- WEEKLY RECAP PANEL -->
+  <!-- ── WEEKLY RECAP ── -->
   <div id="panelRecap" style="display:none;">
     <div style="background:var(--surface);border:1px solid var(--border2);border-radius:8px;padding:22px;margin-bottom:24px;">
       <div class="config-label">Date Range</div>
       <div class="recap-row">
-        <div>
-          <label class="field-label">From</label>
-          <input type="date" id="recapFrom" />
-        </div>
-        <div>
-          <label class="field-label">To</label>
-          <input type="date" id="recapTo" />
-        </div>
-        <div style="padding-bottom:1px;">
-          <button class="btn-primary" id="recapBtn" onclick="generateRecap()">Generate Recap →</button>
-        </div>
+        <div><label class="field-label">From</label><input type="date" id="recapFrom" /></div>
+        <div><label class="field-label">To</label><input type="date" id="recapTo" /></div>
+        <div style="padding-bottom:1px;"><button class="btn-primary" id="recapBtn" onclick="generateRecap()">Generate Recap →</button></div>
       </div>
       <div class="quick-btns">
         <button class="quick-btn" onclick="setRecapRange(7)">Last 7 days</button>
@@ -216,68 +279,67 @@
     <div id="recapOutput"></div>
   </div>
 
-  <!-- SETUP GUIDE -->
+  <!-- ── NEEDS ATTENTION ── -->
+  <div id="panelAttention" style="display:none;">
+    <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:20px;">
+      <div>
+        <div class="eyebrow">Follow-up Dashboard</div>
+        <div style="font-size:14px;color:var(--text-muted);">Contacts overdue for outreach, sorted by urgency.</div>
+      </div>
+      <button class="btn-ghost btn-sm" onclick="loadAttention()">↻ Refresh</button>
+    </div>
+    <div id="attentionOutput"><div class="empty-state">Click Refresh to load your contacts.</div></div>
+  </div>
+
+  <!-- ── GMAIL SYNC ── -->
+  <div id="panelGmail" style="display:none;">
+    <div style="background:var(--surface);border:1px solid var(--border2);border-radius:8px;padding:22px;margin-bottom:24px;">
+      <div class="config-label">Gmail Sync — "Career" Label</div>
+      <div style="font-size:14px;color:var(--text-muted);margin-bottom:16px;line-height:1.65;">
+        Pulls threads tagged <em>Career</em> in Gmail since July 1 2025 that haven't been synced yet.
+        Claude parses each thread into structured records. You review everything before anything saves.
+      </div>
+      <div style="display:flex;gap:10px;align-items:center;flex-wrap:wrap;">
+        <button class="btn-primary" id="gmailScanBtn" onclick="startGmailSync()">Scan Gmail →</button>
+        <button class="btn-ghost btn-sm" id="gmailSaveAllBtn" onclick="saveAllQueued()" style="display:none;">Save All Queued →</button>
+        <span id="gmailStatus" style="font-family:'DM Mono',monospace;font-size:11px;color:var(--text-dim);"></span>
+      </div>
+    </div>
+    <div id="gmailOutput"></div>
+  </div>
+
+  <!-- ── SETUP GUIDE ── -->
   <div class="setup-guide">
     <div class="log-eyebrow" style="margin-bottom:20px;">Airtable Setup Guide — 4-Table Structure</div>
-
     <div style="background:var(--gold-faint);border:1px solid rgba(212,170,106,0.2);border-radius:6px;padding:14px 18px;margin-bottom:24px;font-size:13px;color:var(--text-muted);line-height:1.75;">
-      This structure keeps <strong style="color:var(--text);">one record per person</strong> and <strong style="color:var(--text);">one record per job</strong>. Every time you interact with someone — first call, recruiter screen, third interview — it logs to <strong style="color:var(--gold);">Activity Log</strong>. No duplicates. Full history.
+      This structure keeps <strong style="color:var(--text);">one record per person</strong> and <strong style="color:var(--text);">one record per job</strong>. Every interaction logs to <strong style="color:var(--gold);">Activity Log</strong>. No duplicates. Full history.
     </div>
-
-    <div class="step-row">
-      <div class="step-num">1</div>
-      <div>
-        <div class="step-title">Table: <code>Contacts</code> — one record per person, ever</div>
-        <div class="step-detail">
-          <code>Name</code> · <code>Company</code> · <code>Role</code> · <code>How You Know Them</code> · <code>Notes</code> (Long text) · <code>Relationship Stage</code> (Single select: Cold / Warm / Active / Advocate) · <code>Priority</code> (Single select: High / Medium / Low) · <code>Status</code> (Single select: Done / Reached Out / Not Reached Out / Scheduled / Follow Up) · <code>Type</code> (Single select: Networking / Company / Recruiter)
-        </div>
-      </div>
-    </div>
-
-    <div class="step-row">
-      <div class="step-num">2</div>
-      <div>
-        <div class="step-title">Table: <code>Applications</code> — one record per job, ever</div>
-        <div class="step-detail">
-          <code>Company</code> · <code>Role</code> · <code>Current Status</code> (Single select: Researching / Applied / Phone Screen / Interview / Final Round / Offer / Rejected / Declined / Withdrawn) · <code>Date Applied</code> (Date) · <code>Job URL</code> (URL) · <code>Job Description</code> (Long text) · <code>Notes</code> (Long text)
-        </div>
-      </div>
-    </div>
-
-    <div class="step-row">
-      <div class="step-num">3</div>
-      <div>
-        <div class="step-title">Table: <code>Activity Log</code> — one record per interaction ← most important</div>
-        <div class="step-detail">
-          <code>Date</code> (Date) · <code>Activity Type</code> (Single select: Networking Call / Recruiter Call / Company Call / Recruiter Screen / Interview / Offer / Rejected / Declined / Applied / Follow-up Sent / Other) · <code>Contact</code> <strong style="color:var(--gold);">← Link to Contacts table</strong> · <code>Notes</code> (Long text) · <code>Outcome</code>
-        </div>
-      </div>
-    </div>
-
-    <div class="step-row">
-      <div class="step-num">4</div>
-      <div>
-        <div class="step-title">Table: <code>Follow-ups</code></div>
-        <div class="step-detail">
-          <code>Due Date</code> (Date) · <code>Who</code> <strong style="color:var(--gold);">← Link to Contacts table</strong> · <code>Why</code> · <code>Done</code> (Checkbox)
-        </div>
-      </div>
-    </div>
-
-    <div class="step-row">
-      <div class="step-num">5</div>
-      <div>
-        <div class="step-title">Get your API credentials</div>
-        <div class="step-detail">
-          Go to <strong>airtable.com/create/tokens</strong> → Create token with <code>data.records:read</code> and <code>data.records:write</code> scopes for your base. Copy the token + your Base ID from the URL (starts with <code>app</code>). Paste both in the Settings panel above.
-        </div>
-      </div>
-    </div>
+    <div class="step-row"><div class="step-num">1</div><div>
+      <div class="step-title">Table: <code>Contacts</code> — one record per person, ever</div>
+      <div class="step-detail"><code>Name</code> · <code>Company</code> · <code>Role</code> · <code>How You Know Them</code> · <code>Notes</code> · <code>Relationship Stage</code> (Cold/Warm/Active/Advocate) · <code>Priority</code> (High/Medium/Low) · <code>Status</code> · <code>Type</code> (Networking/Company/Recruiter) · <code>Follow-up Tier</code> (Active/Warm/Cold) · <code>Snooze Until</code> (Date)</div>
+    </div></div>
+    <div class="step-row"><div class="step-num">2</div><div>
+      <div class="step-title">Table: <code>Applications</code> — one record per job, ever</div>
+      <div class="step-detail"><code>Company</code> · <code>Role</code> · <code>Current Status</code> · <code>Date Applied</code> · <code>Job URL</code> · <code>Job Description</code> · <code>Notes</code></div>
+    </div></div>
+    <div class="step-row"><div class="step-num">3</div><div>
+      <div class="step-title">Table: <code>Activity Log</code> — one record per interaction</div>
+      <div class="step-detail"><code>Date</code> · <code>Activity Type</code> · <code>Contact</code> <strong style="color:var(--gold);">← Link to Contacts</strong> · <code>Notes</code> · <code>Outcome</code></div>
+    </div></div>
+    <div class="step-row"><div class="step-num">4</div><div>
+      <div class="step-title">Table: <code>Follow-ups</code></div>
+      <div class="step-detail"><code>Due Date</code> · <code>Who</code> <strong style="color:var(--gold);">← Link to Contacts</strong> · <code>Why</code> · <code>Done</code> (Checkbox)</div>
+    </div></div>
+    <div class="step-row"><div class="step-num">5</div><div>
+      <div class="step-title">Get your API credentials</div>
+      <div class="step-detail">Go to <strong>airtable.com/create/tokens</strong> → Create token with <code>data.records:read</code> and <code>data.records:write</code> scopes. Paste token + Base ID (starts with <code>app</code>) in the Settings panel above.</div>
+    </div></div>
   </div>
 
 </div>
 
 <script>
+// ─── SYSTEM PROMPT ───────────────────────────────────────────────────────────
 const SYSTEM_PROMPT = `You are a job search CRM assistant. Parse the user's plain-English update into structured Airtable records. Return ONLY raw JSON — no markdown, no backticks, no explanation.
 
 You manage 4 tables:
@@ -290,23 +352,12 @@ You manage 4 tables:
    Type: "Networking" | "Company" | "Recruiter"
 
 2. APPLICATIONS — one record per job opening, ever
-   Fields: Company, Role, "Current Status", "Date Applied" (only include if explicitly known, YYYY-MM-DD), "Job URL", "Job Description", Notes
+   Fields: Company, Role, "Current Status", "Date Applied" (YYYY-MM-DD, only if known), "Job URL", "Job Description", Notes
    Current Status: "Researching" | "Applied" | "Phone Screen" | "Interview" | "Final Round" | "Offer" | "Rejected" | "Declined" | "Withdrawn"
 
 3. ACTIVITY LOG — one record per interaction (ALWAYS create this)
    Fields: Date (YYYY-MM-DD), "Activity Type", "Contact Name", Notes, Outcome
-   Activity Type must be exactly one of:
-     "Networking Call" — informal relationship-building call
-     "Recruiter Call" — call with an external recruiter/headhunter
-     "Company Call" — call with someone at a target company about a role
-     "Recruiter Screen" — formal screen arranged by a recruiter
-     "Interview" — any formal interview
-     "Offer" — received a job offer
-     "Rejected" — you were rejected
-     "Declined" — you declined an offer or withdrew
-     "Applied" — submitted an application
-     "Follow-up Sent" — sent a follow-up message
-     "Other" — anything else
+   Activity Type: "Networking Call" | "Recruiter Call" | "Company Call" | "Recruiter Screen" | "Interview" | "Offer" | "Rejected" | "Declined" | "Applied" | "Follow-up Sent" | "Other"
 
 4. FOLLOW-UPS — create when follow-up is implied or stated
    Fields: "Due Date" (YYYY-MM-DD), "Who" (person's name), Why, Done (always false)
@@ -322,16 +373,21 @@ Return this shape:
 Today is ${new Date().toISOString().split('T')[0]}.
 
 Rules:
-- ALWAYS create an Activity Log entry — it's the most important record
+- ALWAYS create an Activity Log entry
 - Create a Contact when a new person is mentioned
 - Create an Application when a specific role/company is mentioned
-- Create a Follow-up when follow-up is mentioned or strongly implied
-- Calculate due dates from today: "in 5 days" = +5, "next week" = +7, "end of week" = next Friday
-- NEVER include a date field with an empty string — omit the field entirely if the date is unknown
-- Only output raw JSON, nothing else`;
+- Create a Follow-up when follow-up is mentioned or implied
+- Calculate due dates from today
+- NEVER include a date field with an empty string — omit it entirely if unknown
+- Only output raw JSON`;
 
+// ─── STATE ───────────────────────────────────────────────────────────────────
 let pendingUpdate = null;
+let gmailThreads = []; // { thread, parsed, status: 'queued'|'skipped'|'saved' }
+let recognition = null;
+let isRecording = false;
 
+// ─── INIT ────────────────────────────────────────────────────────────────────
 window.addEventListener('DOMContentLoaded', () => {
   const pat = localStorage.getItem('crm_pat');
   const base = localStorage.getItem('crm_base');
@@ -344,13 +400,14 @@ window.addEventListener('DOMContentLoaded', () => {
   const ta = document.getElementById('mainInput');
   ta.addEventListener('input', () => { document.getElementById('parseBtn').disabled = !ta.value.trim(); });
   ta.addEventListener('keydown', e => { if (e.key === 'Enter' && !e.shiftKey) { e.preventDefault(); parseInput(); } });
+  initVoice();
 });
 
+// ─── CONFIG ──────────────────────────────────────────────────────────────────
 function toggleConfig() {
   const p = document.getElementById('configPanel');
   p.style.display = p.style.display === 'none' ? 'block' : 'none';
 }
-
 function saveConfig() {
   const pat = document.getElementById('patInput').value.trim();
   const base = document.getElementById('baseInput').value.trim();
@@ -363,15 +420,90 @@ function saveConfig() {
   addLog('system', '✓ Connected to Airtable');
 }
 
+// ─── TABS ────────────────────────────────────────────────────────────────────
 function switchTab(tab) {
-  const isLog = tab === 'log';
-  document.getElementById('panelLog').style.display = isLog ? 'block' : 'none';
-  document.getElementById('panelRecap').style.display = isLog ? 'none' : 'block';
-  document.getElementById('tabLog').className = 'tab-btn' + (isLog ? ' active' : '');
-  document.getElementById('tabRecap').className = 'tab-btn' + (!isLog ? ' active' : '');
-  if (!isLog && !document.getElementById('recapFrom').value) setRecapRange(7);
+  ['log','recap','attention','gmail'].forEach(t => {
+    document.getElementById('panel' + t.charAt(0).toUpperCase() + t.slice(1)).style.display = t === tab ? 'block' : 'none';
+    document.getElementById('tab' + t.charAt(0).toUpperCase() + t.slice(1)).className = 'tab-btn' + (t === tab ? ' active' : '');
+  });
+  if (tab === 'recap' && !document.getElementById('recapFrom').value) setRecapRange(7);
+  if (tab === 'attention') loadAttention();
 }
 
+// ─── VOICE INPUT ─────────────────────────────────────────────────────────────
+function initVoice() {
+  const SpeechRecognition = window.SpeechRecognition || window.webkitSpeechRecognition;
+  const btn = document.getElementById('micBtn');
+  if (!SpeechRecognition) {
+    btn.classList.add('unsupported');
+    btn.title = 'Speech recognition not supported in this browser';
+    return;
+  }
+  recognition = new SpeechRecognition();
+  recognition.continuous = true;
+  recognition.interimResults = true;
+  recognition.lang = 'en-US';
+
+  let finalTranscript = '';
+  let interimTranscript = '';
+
+  recognition.onresult = (e) => {
+    interimTranscript = '';
+    for (let i = e.resultIndex; i < e.results.length; i++) {
+      if (e.results[i].isFinal) finalTranscript += e.results[i][0].transcript + ' ';
+      else interimTranscript += e.results[i][0].transcript;
+    }
+    const ta = document.getElementById('mainInput');
+    ta.value = finalTranscript + interimTranscript;
+    document.getElementById('parseBtn').disabled = !ta.value.trim();
+    ta.style.color = interimTranscript ? 'var(--text-dim)' : 'var(--text)';
+  };
+
+  recognition.onend = () => {
+    if (isRecording) {
+      // Stopped by user or browser — finalize
+      isRecording = false;
+      btn.classList.remove('recording');
+      document.getElementById('inputHint').textContent = '↵ Enter to parse · Shift+Enter for new line';
+      const ta = document.getElementById('mainInput');
+      ta.style.color = 'var(--text)';
+      ta.value = finalTranscript.trim();
+      document.getElementById('parseBtn').disabled = !ta.value.trim();
+      finalTranscript = '';
+    }
+  };
+
+  recognition.onerror = (e) => {
+    isRecording = false;
+    btn.classList.remove('recording');
+    document.getElementById('inputHint').textContent = '↵ Enter to parse · Shift+Enter for new line';
+    if (e.error !== 'aborted') addLog('error', 'Voice error: ' + e.error);
+    finalTranscript = '';
+  };
+}
+
+function toggleVoice() {
+  const btn = document.getElementById('micBtn');
+  if (btn.classList.contains('unsupported')) return;
+  if (!recognition) return;
+
+  if (isRecording) {
+    isRecording = false;
+    recognition.stop();
+    btn.classList.remove('recording');
+    document.getElementById('inputHint').textContent = '↵ Enter to parse · Shift+Enter for new line';
+  } else {
+    isRecording = true;
+    btn.classList.add('recording');
+    document.getElementById('inputHint').textContent = '● Listening… click mic again to stop';
+    document.getElementById('mainInput').value = '';
+    document.getElementById('mainInput').style.color = 'var(--text)';
+    document.getElementById('parseBtn').disabled = true;
+    try { recognition.start(); } catch(e) { /* already started */ }
+  }
+}
+
+// ─── PARSE INPUT ─────────────────────────────────────────────────────────────
 function useExample(btn) {
   const text = btn.textContent.replace(/^"|"$/g, '');
   document.getElementById('mainInput').value = text;
@@ -403,16 +535,12 @@ async function parseInput() {
     });
     const data = await res.json();
     const raw = data.content?.[0]?.text || '{}';
-    let parsed = null;
-    try { parsed = JSON.parse(raw); } catch {}
-    if (!parsed) { try { const s = raw.replace(/```json\n?/g,'').replace(/```\n?/g,'').trim(); parsed = JSON.parse(s); } catch {} }
-    if (!parsed) { try { const m = raw.match(/\{[\s\S]*\}/); if (m) parsed = JSON.parse(m[0]); } catch {} }
-
+    const parsed = safeParseJSON(raw);
     if (!parsed?.updates?.length) {
-      addLog('error', `Parse failed. Response was: ${raw.substring(0, 300)}`);
+      addLog('error', `Parse failed. Response: ${raw.substring(0,300)}`);
     } else {
       addLog('parsed', parsed.summary);
-      showPending(parsed);
+      await showPendingWithDiff(parsed);
     }
   } catch(err) { addLog('error', 'Error: ' + err.message); }
 
@@ -420,20 +548,80 @@ async function parseInput() {
   btn.disabled = false;
 }
 
-function showPending(parsed) {
+function safeParseJSON(raw) {
+  try { return JSON.parse(raw); } catch {}
+  try { return JSON.parse(raw.replace(/```json\n?/g,'').replace(/```\n?/g,'').trim()); } catch {}
+  try { const m = raw.match(/\{[\s\S]*\}/); if (m) return JSON.parse(m[0]); } catch {}
+  return null;
+}
+
+// ─── PENDING WITH DIFF ───────────────────────────────────────────────────────
+async function showPendingWithDiff(parsed) {
   pendingUpdate = parsed;
+  const pat = localStorage.getItem('crm_pat');
+  const base = localStorage.getItem('crm_base');
   const colors = { 'Contacts': '#6A9FBF', 'Applications': '#9F6ABF', 'Activity Log': '#D4AA6A', 'Follow-ups': '#6ABF7A' };
 
-  const recordsHTML = parsed.updates.map(u => {
+  // For each update, try to find an existing record
+  const enriched = await Promise.all(parsed.updates.map(async u => {
+    let existing = null;
+    if (pat && base) {
+      if (u.table === 'Contacts' && u.fields['Name']) {
+        existing = await findContactByName(pat, base, u.fields['Name']);
+      } else if (u.table === 'Applications' && u.fields['Company'] && u.fields['Role']) {
+        existing = await findApplicationByCompanyRole(pat, base, u.fields['Company'], u.fields['Role']);
+      }
+    }
+    return { ...u, existing, mode: existing ? 'update' : 'create' };
+  }));
+
+  // Store enriched on pendingUpdate
+  pendingUpdate.updates = enriched;
+
+  const recordsHTML = enriched.map((u, idx) => {
     const c = colors[u.table] || '#D4AA6A';
-    return `<div class="record-block" style="border-left-color:${c}55;">
+    const hasExisting = !!u.existing;
+    const modeLabel = hasExisting ? (u.mode === 'update' ? 'update existing' : 'create new') : 'create';
+
+    let fieldsHTML = '';
+    if (hasExisting) {
+      // Side-by-side diff view
+      const existingFields = u.existing.fields || {};
+      const allKeys = [...new Set([...Object.keys(existingFields), ...Object.keys(u.fields)])];
+      const rows = allKeys.map(k => {
+        const oldVal = existingFields[k];
+        const newVal = u.fields[k];
+        const changed = String(oldVal ?? '') !== String(newVal ?? '') && newVal !== undefined;
+        return `<tr>
+          <td>${k}</td>
+          <td>${oldVal !== undefined ? `<span class="diff-old">${String(oldVal)}</span>` : '<span style="color:var(--text-dim)">—</span>'}</td>
+          <td>${newVal !== undefined ? (changed ? `<span class="diff-new">${String(newVal)}</span>` : `<span class="diff-unchanged">${String(newVal)}</span>`) : '<span style="color:var(--text-dim)">—</span>'}</td>
+        </tr>`;
+      }).join('');
+      fieldsHTML = `
+        <table class="diff-table">
+          <thead><tr><th>Field</th><th>Current</th><th>Proposed</th></tr></thead>
+          <tbody>${rows}</tbody>
+        </table>`;
+    } else {
+      fieldsHTML = `<div class="record-fields">${Object.entries(u.fields).map(([k,v]) =>
+        `<div class="field-item"><span class="field-key">${k}: </span><span class="field-val">${String(v)}</span></div>`
+      ).join('')}</div>`;
+    }
+
+    const toggleHTML = hasExisting ? `
+      <div class="edit-toggle">
+        <button class="edit-toggle-btn ${u.mode === 'update' ? 'active' : ''}" onclick="setRecordMode(${idx},'update')">Update existing</button>
+        <button class="edit-toggle-btn ${u.mode === 'create' ? 'active' : ''}" onclick="setRecordMode(${idx},'create')">Create new</button>
+      </div>` : '';
+
+    return `<div class="record-block" style="border-left-color:${c}55;" id="record-block-${idx}">
       <div class="record-meta">
         <span class="record-table-tag" style="color:${c};background:${c}18;">${u.table}</span>
-        <span class="record-action-tag">${u.action}</span>
+        <span class="record-action-tag">${modeLabel}</span>
+        ${toggleHTML}
       </div>
-      <div class="record-fields">
-        ${Object.entries(u.fields).map(([k,v]) => `<div class="field-item"><span class="field-key">${k}: </span><span class="field-val">${String(v)}</span></div>`).join('')}
-      </div>
+      ${fieldsHTML}
     </div>`;
   }).join('');
 
@@ -452,7 +640,18 @@ function showPending(parsed) {
   document.getElementById('pendingCard').style.display = 'block';
 }
 
-// Strip empty/null/undefined values from fields before sending to Airtable
+function setRecordMode(idx, mode) {
+  pendingUpdate.updates[idx].mode = mode;
+  // Re-render just the toggle buttons
+  const block = document.getElementById(`record-block-${idx}`);
+  if (!block) return;
+  block.querySelector('.record-action-tag').textContent = mode === 'update' ? 'update existing' : 'create new';
+  block.querySelectorAll('.edit-toggle-btn').forEach(b => {
+    b.classList.toggle('active', b.textContent.toLowerCase().includes(mode));
+  });
+}
+
+// ─── SAVE TO AIRTABLE ────────────────────────────────────────────────────────
 function stripEmpty(fields) {
   const clean = {};
   Object.entries(fields).forEach(([k, v]) => {
@@ -471,120 +670,101 @@ async function sendToAirtable() {
   btn.disabled = true;
   btn.innerHTML = '<span class="spinner"></span>Saving…';
 
-  // Separate contacts from other updates so we can get their IDs first
   const contactUpdates = pendingUpdate.updates.filter(u => u.table === 'Contacts');
   const otherUpdates = pendingUpdate.updates.filter(u => u.table !== 'Contacts');
-
-  // Map of contact name → Airtable record ID, built as we go
   const contactIdMap = {};
-
   const results = [];
 
-  // Step 1: Save contacts first (or look them up if they already exist)
+  // Save contacts first
   for (const u of contactUpdates) {
     const name = u.fields['Name'];
     try {
-      // Try to find existing contact by name
-      const existing = await findContactByName(pat, base, name);
-      if (existing) {
-        contactIdMap[name] = existing.id;
-        results.push({ table: 'Contacts', success: true, note: 'linked existing' });
-        addLog('system', `↗ Found existing contact: ${name} — linking`);
-      } else {
-        // Create new contact
-        const res = await fetch(`https://api.airtable.com/v0/${base}/Contacts`, {
-          method: 'POST',
+      if (u.mode === 'update' && u.existing?.id) {
+        // PATCH existing
+        const res = await fetch(`https://api.airtable.com/v0/${base}/Contacts/${u.existing.id}`, {
+          method: 'PATCH',
           headers: { 'Authorization': `Bearer ${pat}`, 'Content-Type': 'application/json' },
           body: JSON.stringify({ fields: stripEmpty(u.fields) })
         });
         const json = await res.json();
-        if (json.id) {
-          contactIdMap[name] = json.id;
-          results.push({ table: 'Contacts', success: true, note: 'created new' });
+        if (json.id) { contactIdMap[name] = json.id; results.push({ table: 'Contacts', success: true, note: 'updated' }); }
+        else results.push({ table: 'Contacts', success: false, error: json.error?.message || 'Unknown' });
+      } else {
+        // Check for existing first, then create
+        const existing = await findContactByName(pat, base, name);
+        if (existing) {
+          contactIdMap[name] = existing.id;
+          results.push({ table: 'Contacts', success: true, note: 'linked existing' });
+          addLog('system', `↗ Linked existing contact: ${name}`);
         } else {
-          results.push({ table: 'Contacts', success: false, error: json.error?.message || 'Unknown' });
+          const res = await fetch(`https://api.airtable.com/v0/${base}/Contacts`, {
+            method: 'POST',
+            headers: { 'Authorization': `Bearer ${pat}`, 'Content-Type': 'application/json' },
+            body: JSON.stringify({ fields: stripEmpty(u.fields) })
+          });
+          const json = await res.json();
+          if (json.id) { contactIdMap[name] = json.id; results.push({ table: 'Contacts', success: true, note: 'created' }); }
+          else results.push({ table: 'Contacts', success: false, error: json.error?.message || 'Unknown' });
         }
       }
     } catch(err) { results.push({ table: 'Contacts', success: false, error: err.message }); }
   }
 
-  // Step 2: Pre-look up any contact names referenced in Activity Log or Follow-ups
+  // Pre-look up contacts for other updates
   for (const u of otherUpdates) {
     const nameField = u.table === 'Activity Log' ? 'Contact Name' : u.table === 'Follow-ups' ? 'Who' : null;
-    if (nameField && u.fields[nameField]) {
-      const name = u.fields[nameField];
-      if (!contactIdMap[name]) {
-        try {
-          const existing = await findContactByName(pat, base, name);
-          if (existing) {
-            contactIdMap[name] = existing.id;
-            addLog('system', `↗ Linked existing contact: ${name}`);
-          }
-        } catch(e) { /* silent */ }
-      }
+    if (nameField && u.fields[nameField] && !contactIdMap[u.fields[nameField]]) {
+      try {
+        const existing = await findContactByName(pat, base, u.fields[nameField]);
+        if (existing) { contactIdMap[u.fields[nameField]] = existing.id; }
+      } catch {}
     }
   }
 
-  // Step 3: Save remaining records, swapping contact name fields → linked record IDs
+  // Save remaining records
   for (const u of otherUpdates) {
     try {
       const fields = { ...u.fields };
+      Object.keys(fields).forEach(k => { if (fields[k] === '' || fields[k] === null || fields[k] === undefined) delete fields[k]; });
 
-      // Strip any empty string values — Airtable rejects empty date/select fields
-      Object.keys(fields).forEach(k => {
-        if (fields[k] === '' || fields[k] === null || fields[k] === undefined) {
-          delete fields[k];
-        }
-      });
-
-      // Activity Log: replace Contact Name with linked record, strip Company/Role
       if (u.table === 'Activity Log') {
         const name = fields['Contact Name'];
-        delete fields['Contact Name'];
-        delete fields['Company'];
-        delete fields['Role'];
-        if (name) {
-          const recordId = contactIdMap[name];
-          if (recordId) fields['Contact'] = [recordId];
-        }
+        delete fields['Contact Name']; delete fields['Company']; delete fields['Role'];
+        if (name && contactIdMap[name]) fields['Contact'] = [contactIdMap[name]];
       }
-
-      // Follow-ups: replace Who with linked record, strip Company
       if (u.table === 'Follow-ups') {
         const name = fields['Who'];
         delete fields['Company'];
         if (name) {
-          // Look up if not already in map
           if (!contactIdMap[name]) {
-            try {
-              const existing = await findContactByName(pat, base, name);
-              if (existing) {
-                contactIdMap[name] = existing.id;
-                addLog('system', `↗ Linked existing contact for follow-up: ${name}`);
-              }
-            } catch(e) { /* silent */ }
+            const ex = await findContactByName(pat, base, name);
+            if (ex) contactIdMap[name] = ex.id;
           }
-          const recordId = contactIdMap[name];
-          if (recordId) {
-            delete fields['Who'];
-            fields['Who'] = [recordId];
-          }
+          if (contactIdMap[name]) { delete fields['Who']; fields['Who'] = [contactIdMap[name]]; }
         }
       }
 
-      const res = await fetch(`https://api.airtable.com/v0/${base}/${encodeURIComponent(u.table)}`, {
-        method: 'POST',
-        headers: { 'Authorization': `Bearer ${pat}`, 'Content-Type': 'application/json' },
-        body: JSON.stringify({ fields: stripEmpty(fields) })
-      });
+      let res;
+      if (u.mode === 'update' && u.existing?.id) {
+        res = await fetch(`https://api.airtable.com/v0/${base}/${encodeURIComponent(u.table)}/${u.existing.id}`, {
+          method: 'PATCH',
+          headers: { 'Authorization': `Bearer ${pat}`, 'Content-Type': 'application/json' },
+          body: JSON.stringify({ fields: stripEmpty(fields) })
+        });
+      } else {
+        res = await fetch(`https://api.airtable.com/v0/${base}/${encodeURIComponent(u.table)}`, {
+          method: 'POST',
+          headers: { 'Authorization': `Bearer ${pat}`, 'Content-Type': 'application/json' },
+          body: JSON.stringify({ fields: stripEmpty(fields) })
+        });
+      }
       const json = await res.json();
       results.push(json.id ? { table: u.table, success: true } : { table: u.table, success: false, error: json.error?.message || 'Unknown' });
     } catch(err) { results.push({ table: u.table, success: false, error: err.message }); }
   }
 
-  const allGood = results.every(r => r.success);
   const failed = results.filter(r => !r.success);
-  if (allGood) {
+  if (!failed.length) {
     addLog('success', `✓ Saved ${results.length} record${results.length !== 1 ? 's' : ''} — ${results.map(r => r.table).join(', ')}`);
   } else {
     addLog('error', `Some failed: ${failed.map(r => `${r.table}: ${r.error}`).join(' · ')}`);
@@ -593,7 +773,13 @@ async function sendToAirtable() {
   document.getElementById('pendingCard').style.display = 'none';
 }
 
-// Look up a contact in Airtable by name (case-insensitive exact match)
+function discardUpdate() {
+  pendingUpdate = null;
+  document.getElementById('pendingCard').style.display = 'none';
+  addLog('system', 'Update discarded.');
+}
+
+// ─── AIRTABLE LOOKUPS ────────────────────────────────────────────────────────
 async function findContactByName(pat, base, name) {
   if (!name) return null;
   try {
@@ -606,12 +792,19 @@ async function findContactByName(pat, base, name) {
   } catch { return null; }
 }
 
-function discardUpdate() {
-  pendingUpdate = null;
-  document.getElementById('pendingCard').style.display = 'none';
-  addLog('system', 'Update discarded.');
+async function findApplicationByCompanyRole(pat, base, company, role) {
+  if (!company || !role) return null;
+  try {
+    const formula = encodeURIComponent(`AND(LOWER({Company}) = "${company.toLowerCase().replace(/"/g,'\\"')}", LOWER({Role}) = "${role.toLowerCase().replace(/"/g,'\\"')}")`);
+    const res = await fetch(`https://api.airtable.com/v0/${base}/Applications?filterByFormula=${formula}&maxRecords=1`, {
+      headers: { 'Authorization': `Bearer ${pat}` }
+    });
+    const json = await res.json();
+    return json.records?.[0] || null;
+  } catch { return null; }
 }
 
+// ─── LOG ─────────────────────────────────────────────────────────────────────
 function addLog(type, content) {
   document.getElementById('logSection').style.display = 'block';
   const entries = document.getElementById('logEntries');
@@ -623,15 +816,12 @@ function addLog(type, content) {
   div.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
 }
 
+// ─── WEEKLY RECAP ────────────────────────────────────────────────────────────
 function setRecapRange(days, thisWeek = false) {
   const today = new Date();
   let from = new Date(today);
-  if (thisWeek) {
-    const day = today.getDay();
-    from.setDate(today.getDate() - (day === 0 ? 6 : day - 1));
-  } else {
-    from.setDate(today.getDate() - days);
-  }
+  if (thisWeek) { const d = today.getDay(); from.setDate(today.getDate() - (d === 0 ? 6 : d - 1)); }
+  else from.setDate(today.getDate() - days);
   document.getElementById('recapTo').value = today.toISOString().split('T')[0];
   document.getElementById('recapFrom').value = from.toISOString().split('T')[0];
 }
@@ -640,7 +830,6 @@ async function generateRecap() {
   const pat = localStorage.getItem('crm_pat');
   const base = localStorage.getItem('crm_base');
   if (!pat || !base) { switchTab('log'); setTimeout(toggleConfig, 100); return; }
-
   const from = document.getElementById('recapFrom').value;
   const to = document.getElementById('recapTo').value;
   if (!from || !to) return alert('Please select a date range.');
@@ -648,75 +837,35 @@ async function generateRecap() {
   const btn = document.getElementById('recapBtn');
   btn.disabled = true;
   btn.innerHTML = '<span class="spinner"></span>Fetching data…';
-  const output = document.getElementById('recapOutput');
-  output.innerHTML = '';
+  document.getElementById('recapOutput').innerHTML = '';
 
   try {
     const [activities, followups] = await Promise.all([
       fetchAllRecords(pat, base, 'Activity Log'),
       fetchAllRecords(pat, base, 'Follow-ups')
     ]);
-
     const fromDate = new Date(from);
     const toDate = new Date(to); toDate.setHours(23,59,59,999);
-
-    const filtered = activities.filter(r => {
-      const d = r.fields['Date'];
-      if (!d) return false;
-      const rd = new Date(d);
-      return rd >= fromDate && rd <= toDate;
-    });
-
+    const filtered = activities.filter(r => { const d = new Date(r.fields['Date']); return d >= fromDate && d <= toDate; });
     const TYPES = ['Networking Call','Recruiter Call','Company Call','Recruiter Screen','Interview','Offer','Rejected','Declined','Applied','Follow-up Sent','Other'];
-    const byType = {};
-    TYPES.forEach(t => byType[t] = []);
-    filtered.forEach(r => {
-      const t = r.fields['Activity Type'];
-      if (t && byType[t] !== undefined) byType[t].push(r.fields);
-      else { byType['Other'] = byType['Other'] || []; byType['Other'].push(r.fields); }
-    });
-
-    const now = new Date();
-    const in7 = new Date(); in7.setDate(now.getDate() + 7);
-    const pending = followups
-      .filter(r => !r.fields['Done'] && (!r.fields['Due Date'] || new Date(r.fields['Due Date']) <= in7))
-      .map(r => r.fields);
+    const byType = {}; TYPES.forEach(t => byType[t] = []);
+    filtered.forEach(r => { const t = r.fields['Activity Type']; if (byType[t] !== undefined) byType[t].push(r.fields); else byType['Other'].push(r.fields); });
+    const now = new Date(); const in7 = new Date(); in7.setDate(now.getDate() + 7);
+    const pending = followups.filter(r => !r.fields['Done'] && (!r.fields['Due Date'] || new Date(r.fields['Due Date']) <= in7)).map(r => r.fields);
 
     btn.innerHTML = '<span class="spinner"></span>Writing recap…';
-
-    const recapData = {
-      dateRange: { from, to },
-      totalActivities: filtered.length,
-      breakdown: Object.fromEntries(Object.entries(byType).filter(([,v]) => v.length > 0).map(([k,v]) => [k, { count: v.length, items: v }])),
-      pendingFollowups: pending
-    };
+    const recapData = { dateRange: { from, to }, totalActivities: filtered.length, breakdown: Object.fromEntries(Object.entries(byType).filter(([,v]) => v.length > 0).map(([k,v]) => [k,{count:v.length,items:v}])), pendingFollowups: pending };
 
     const res = await fetch('https://crm-proxy.liz-l-goodin.workers.dev', {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({
-        model: 'claude-sonnet-4-20250514',
-        max_tokens: 2000,
-        system: `You are a warm, insightful job search coach writing a personal weekly recap. Write in HTML with inline styles only. No <html>/<head>/<body> tags.
-
-Color palette: text #F5F2EC, muted #B0A898, dim #7A7468, gold/headings #D4AA6A, green #6ABF7A, red #BF7A7A.
-Cards: background #1C1C19, border 1px solid #404038, border-radius 8px, padding 18px 20px, margin-bottom 16px.
-Font: Georgia serif throughout. All text must be highly legible — use #F5F2EC or #B0A898 for body text, never dim colors for main content.
-
-Write these sections:
-1. HEADLINE — 1-2 sentences, warm and personal. Reference actual companies and counts. Sound like a trusted advisor, not a dashboard.
-2. ACTIVITY BREAKDOWN — a clean visual breakdown. For each activity type with count > 0, show: type name + count. Make it scannable.
-3. HIGHLIGHTS — specific notable moments: promising contacts, interviews progressing, offers, etc. Pull real names and companies from the data.
-4. OPEN FOLLOW-UPS — list pending follow-ups (who, why, due date). If none, say so warmly.
-5. COACH'S NOTE — 2-3 sentences of specific, genuine insight or tactical advice based on what you actually see in the data. Not generic.`,
+      method: 'POST', headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ model: 'claude-sonnet-4-20250514', max_tokens: 2000,
+        system: `You are a warm, insightful job search coach writing a personal weekly recap. Write in HTML with inline styles only. No <html>/<head>/<body> tags. Color palette: text #F5F2EC, muted #B0A898, dim #7A7468, gold #D4AA6A, green #6ABF7A, red #BF7A7A. Cards: background #1C1C19, border 1px solid #404038, border-radius 8px, padding 18px 20px, margin-bottom 16px. Font: Georgia serif. Write: 1) HEADLINE 2) ACTIVITY BREAKDOWN 3) HIGHLIGHTS 4) OPEN FOLLOW-UPS 5) COACH'S NOTE`,
         messages: [{ role: 'user', content: JSON.stringify(recapData, null, 2) }]
       })
     });
-
     const data = await res.json();
     const html = data.content?.[0]?.text || '<p style="color:#BF7A7A">Could not generate recap.</p>';
-
-    output.innerHTML = `
+    document.getElementById('recapOutput').innerHTML = `
       <div style="background:var(--surface);border:1px solid var(--border2);border-radius:8px;padding:28px;margin-bottom:24px;animation:fadeUp 0.3s ease both;">
         <div style="font-family:'DM Mono',monospace;font-size:10px;letter-spacing:0.18em;text-transform:uppercase;color:var(--text-dim);margin-bottom:24px;">
           Weekly Recap · ${from} → ${to} · ${filtered.length} activit${filtered.length !== 1 ? 'ies' : 'y'}
@@ -727,15 +876,420 @@ Write these sections:
           <button class="btn-ghost" onclick="window.print()">Print / Save PDF</button>
         </div>
       </div>`;
-
   } catch(err) {
-    output.innerHTML = `<div class="log-entry error"><span class="log-type">error</span>${err.message}</div>`;
+    document.getElementById('recapOutput').innerHTML = `<div class="log-entry error"><span class="log-type">error</span>${err.message}</div>`;
   }
-
   btn.textContent = 'Generate Recap →';
   btn.disabled = false;
 }
 
+function copyRecap() {
+  navigator.clipboard.writeText(document.getElementById('recapOutput').innerText).then(() => alert('Copied!'));
+}
+
+// ─── NEEDS ATTENTION ─────────────────────────────────────────────────────────
+async function loadAttention() {
+  const pat = localStorage.getItem('crm_pat');
+  const base = localStorage.getItem('crm_base');
+  const out = document.getElementById('attentionOutput');
+  if (!pat || !base) { out.innerHTML = '<div class="empty-state">Connect Airtable first.</div>'; return; }
+
+  out.innerHTML = '<div class="empty-state"><span class="spinner"></span> Loading contacts…</div>';
+
+  try {
+    const [contacts, activityLog] = await Promise.all([
+      fetchAllRecords(pat, base, 'Contacts'),
+      fetchAllRecords(pat, base, 'Activity Log')
+    ]);
+
+    const today = new Date();
+    today.setHours(0,0,0,0);
+
+    // Build last-contact map: contact record ID → { date, note }
+    const lastContact = {};
+    activityLog.forEach(r => {
+      const linked = r.fields['Contact'];
+      if (!linked || !linked.length) return;
+      const cid = linked[0];
+      const d = r.fields['Date'] ? new Date(r.fields['Date']) : null;
+      if (!d) return;
+      if (!lastContact[cid] || d > lastContact[cid].date) {
+        lastContact[cid] = { date: d, type: r.fields['Activity Type'] || '', notes: r.fields['Notes'] || '' };
+      }
+    });
+
+    // Score each contact
+    const scored = contacts.map(c => {
+      const tier = c.fields['Follow-up Tier'] || 'Active';
+      const snoozeUntil = c.fields['Snooze Until'] ? new Date(c.fields['Snooze Until']) : null;
+      if (snoozeUntil && snoozeUntil > today) return null; // snoozed
+
+      const lc = lastContact[c.id];
+      const daysSince = lc ? Math.floor((today - lc.date) / 86400000) : 999;
+      const threshold = tier === 'Active' ? 7 : tier === 'Warm' ? 14 : 45;
+      const overdue = daysSince >= threshold;
+
+      return { id: c.id, fields: c.fields, tier, daysSince, threshold, overdue, lastContact: lc };
+    }).filter(Boolean);
+
+    // Sort: overdue first, then by days since
+    const overdue = scored.filter(c => c.overdue).sort((a,b) => b.daysSince - a.daysSince);
+    const upcoming = scored.filter(c => !c.overdue).sort((a,b) => b.daysSince - a.daysSince);
+
+    if (!overdue.length && !upcoming.length) {
+      out.innerHTML = '<div class="empty-state">No contacts to show. Add some contacts first.</div>';
+      return;
+    }
+
+    let html = '';
+    if (overdue.length) {
+      html += `<div class="section-header">Overdue · ${overdue.length}</div>`;
+      html += overdue.map(c => renderAttentionCard(c)).join('');
+    }
+    if (upcoming.length) {
+      html += `<div class="section-header">On Track · ${upcoming.length}</div>`;
+      html += upcoming.map(c => renderAttentionCard(c)).join('');
+    }
+    out.innerHTML = html;
+  } catch(err) {
+    out.innerHTML = `<div class="empty-state" style="color:var(--red)">Error: ${err.message}</div>`;
+  }
+}
+
+function renderAttentionCard(c) {
+  const f = c.fields;
+  const tierClass = c.overdue ? 'tier-overdue' : c.tier === 'Active' ? 'tier-active' : c.tier === 'Warm' ? 'tier-warm' : 'tier-cold';
+  const tierLabel = c.overdue ? 'overdue' : c.tier.toLowerCase();
+  const daysText = c.daysSince === 999 ? 'never contacted' : `${c.daysSince}d ago`;
+  const lastNote = c.lastContact ? `Last: ${c.lastContact.type}${c.lastContact.notes ? ' — ' + c.lastContact.notes.substring(0,80) : ''}` : 'No activity logged yet';
+
+  return `<div class="attention-card" id="acard-${c.id}">
+    <div>
+      <div class="tier-badge ${tierClass}">${tierLabel}</div>
+      <div class="days-since">${daysText}</div>
+    </div>
+    <div class="attention-main">
+      <div class="attention-name">${f['Name'] || '—'}</div>
+      <div class="attention-meta">${[f['Role'], f['Company']].filter(Boolean).join(' · ')}</div>
+      <div class="attention-last">${lastNote}</div>
+      <div class="attention-actions">
+        <button class="btn-ghost btn-sm" onclick="logFollowUpFor('${c.id}', '${(f['Name']||'').replace(/'/g,"\\'")}')">Log follow-up</button>
+        <select class="snooze-select" onchange="snoozeContact('${c.id}', this.value); this.value=''">
+          <option value="">Snooze…</option>
+          <option value="3">3 days</option>
+          <option value="7">1 week</option>
+          <option value="14">2 weeks</option>
+          <option value="30">1 month</option>
+        </select>
+      </div>
+    </div>
+  </div>`;
+}
+
+function logFollowUpFor(contactId, name) {
+  switchTab('log');
+  const ta = document.getElementById('mainInput');
+  ta.value = `Sent a follow-up to ${name}. `;
+  ta.focus();
+  ta.setSelectionRange(ta.value.length, ta.value.length);
+  document.getElementById('parseBtn').disabled = false;
+}
+
+async function snoozeContact(contactId, days) {
+  if (!days) return;
+  const pat = localStorage.getItem('crm_pat');
+  const base = localStorage.getItem('crm_base');
+  if (!pat || !base) return;
+  const snoozeDate = new Date();
+  snoozeDate.setDate(snoozeDate.getDate() + parseInt(days));
+  try {
+    await fetch(`https://api.airtable.com/v0/${base}/Contacts/${contactId}`, {
+      method: 'PATCH',
+      headers: { 'Authorization': `Bearer ${pat}`, 'Content-Type': 'application/json' },
+      body: JSON.stringify({ fields: { 'Snooze Until': snoozeDate.toISOString().split('T')[0] } })
+    });
+    // Remove card from view
+    const card = document.getElementById(`acard-${contactId}`);
+    if (card) { card.style.opacity = '0'; card.style.transition = 'opacity 0.3s'; setTimeout(() => card.remove(), 300); }
+  } catch(err) { alert('Snooze failed: ' + err.message); }
+}
+
+// ─── GMAIL SYNC ──────────────────────────────────────────────────────────────
+const GMAIL_PARSE_PROMPT = `You are parsing a Gmail thread from a job search. Extract structured CRM data and return ONLY raw JSON.
+
+Return this shape:
+{
+  "skip": false,
+  "reason": "why we should or shouldn't skip this",
+  "summary": "one sentence",
+  "company": "company name or null",
+  "role": "job title or null",
+  "contact_name": "person's name or null",
+  "contact_email": "email or null",
+  "activity_type": "Applied|Interview|Recruiter Screen|Recruiter Call|Company Call|Networking Call|Offer|Rejected|Declined|Follow-up Sent|Other",
+  "date": "YYYY-MM-DD or null",
+  "notes": "brief notes",
+  "status": "Researching|Applied|Phone Screen|Interview|Final Round|Offer|Rejected|Declined|Withdrawn|null",
+  "follow_up_days": null or number of days until follow-up needed
+}
+
+Set skip=true if: this is a newsletter, automated notification, marketing email, spam, or clearly not related to an active job application or networking conversation.`;
+
+async function startGmailSync() {
+  const pat = localStorage.getItem('crm_pat');
+  const base = localStorage.getItem('crm_base');
+  if (!pat || !base) { alert('Connect Airtable first.'); return; }
+
+  const btn = document.getElementById('gmailScanBtn');
+  const status = document.getElementById('gmailStatus');
+  const out = document.getElementById('gmailOutput');
+
+  btn.disabled = true;
+  btn.innerHTML = '<span class="spinner"></span>Scanning Gmail…';
+  status.textContent = '';
+  out.innerHTML = '';
+  gmailThreads = [];
+
+  try {
+    // Use Claude with Gmail MCP to fetch Career-labeled threads since July 2025
+    status.textContent = 'Fetching threads from Gmail…';
+
+    const res = await fetch('https://crm-proxy.liz-l-goodin.workers.dev', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({
+        model: 'claude-sonnet-4-20250514',
+        max_tokens: 4000,
+        mcp_servers: [{ type: 'url', url: 'https://gmailmcp.googleapis.com/mcp/v1', name: 'gmail-mcp' }],
+        system: `You are a Gmail assistant. Search for emails with the label "Career" (or "careers") received after July 1, 2025. 
+        
+Return ONLY a raw JSON array of thread objects. No markdown, no explanation.
+Each object: { "id": "thread_id", "subject": "subject line", "from": "sender name and email", "date": "YYYY-MM-DD", "snippet": "first 200 chars of body" }
+
+Fetch up to 50 threads. If fewer exist, return what you find. Skip threads already marked as replied-to if possible.`,
+        messages: [{ role: 'user', content: 'Search my Gmail for all emails with the Career label received after July 1 2025. Return a JSON array of thread objects as instructed.' }]
+      })
+    });
+
+    const data = await res.json();
+    // Extract text from response (handles MCP tool use blocks)
+    const textBlocks = (data.content || []).filter(b => b.type === 'text').map(b => b.text).join('\n');
+    const threads = safeParseJSON(textBlocks);
+
+    if (!threads || !Array.isArray(threads) || threads.length === 0) {
+      out.innerHTML = '<div class="empty-state">No Career-labeled threads found since July 2025, or Gmail connection issue. Make sure the Gmail MCP connector is enabled.</div>';
+      btn.textContent = 'Scan Gmail →';
+      btn.disabled = false;
+      return;
+    }
+
+    status.textContent = `Found ${threads.length} threads. Parsing…`;
+
+    // Parse each thread through Claude
+    for (let i = 0; i < threads.length; i++) {
+      const thread = threads[i];
+      status.textContent = `Parsing thread ${i + 1} of ${threads.length}…`;
+
+      try {
+        const parseRes = await fetch('https://crm-proxy.liz-l-goodin.workers.dev', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({
+            model: 'claude-sonnet-4-20250514',
+            max_tokens: 600,
+            system: GMAIL_PARSE_PROMPT,
+            messages: [{ role: 'user', content: `Subject: ${thread.subject}\nFrom: ${thread.from}\nDate: ${thread.date}\n\n${thread.snippet}` }]
+          })
+        });
+        const parseData = await parseRes.json();
+        const parsed = safeParseJSON(parseData.content?.[0]?.text || '{}');
+        gmailThreads.push({ thread, parsed, status: parsed?.skip ? 'skipped' : 'queued' });
+      } catch {
+        gmailThreads.push({ thread, parsed: null, status: 'skipped' });
+      }
+
+      renderGmailThreads();
+    }
+
+    const queued = gmailThreads.filter(t => t.status === 'queued').length;
+    status.textContent = `${queued} ready to save, ${gmailThreads.length - queued} skipped.`;
+    if (queued > 0) document.getElementById('gmailSaveAllBtn').style.display = 'inline-flex';
+
+  } catch(err) {
+    out.innerHTML = `<div class="empty-state" style="color:var(--red)">Error: ${err.message}</div>`;
+  }
+
+  btn.textContent = 'Scan Gmail →';
+  btn.disabled = false;
+}
+
+function renderGmailThreads() {
+  const out = document.getElementById('gmailOutput');
+  if (!gmailThreads.length) { out.innerHTML = ''; return; }
+
+  const queued = gmailThreads.filter(t => t.status === 'queued');
+  const skipped = gmailThreads.filter(t => t.status === 'skipped');
+  const saved = gmailThreads.filter(t => t.status === 'saved');
+
+  let html = '';
+
+  if (queued.length) {
+    html += `<div class="section-header">Ready to Save · ${queued.length}</div>`;
+    html += gmailThreads.filter(t => t.status === 'queued').map((t, i) => renderGmailCard(t, i)).join('');
+  }
+  if (saved.length) {
+    html += `<div class="section-header">Saved · ${saved.length}</div>`;
+    html += gmailThreads.filter(t => t.status === 'saved').map((t, i) => renderGmailCard(t, i)).join('');
+  }
+  if (skipped.length) {
+    html += `<div class="section-header" style="cursor:pointer;" onclick="this.nextElementSibling.style.display=this.nextElementSibling.style.display==='none'?'block':'none'">Skipped · ${skipped.length} ▾</div>`;
+    html += `<div style="display:none;">` + gmailThreads.filter(t => t.status === 'skipped').map((t, i) => renderGmailCard(t, i)).join('') + '</div>';
+  }
+
+  out.innerHTML = html;
+}
+
+function renderGmailCard(t, i) {
+  const globalIdx = gmailThreads.indexOf(t);
+  const p = t.parsed;
+  const statusClass = t.status;
+  const fields = p && !p.skip ? [
+    p.company && `Company: ${p.company}`,
+    p.role && `Role: ${p.role}`,
+    p.contact_name && `Contact: ${p.contact_name}`,
+    p.activity_type && `Type: ${p.activity_type}`,
+    p.status && `Status: ${p.status}`,
+  ].filter(Boolean) : [];
+
+  return `<div class="gmail-thread">
+    <div class="gmail-thread-header">
+      <div class="gmail-subject">${t.thread.subject || '(no subject)'}</div>
+      <div style="display:flex;gap:8px;align-items:center;flex-shrink:0;">
+        <span class="gmail-meta">${t.thread.date || ''}</span>
+        <span class="gmail-status ${statusClass}">${t.status}</span>
+      </div>
+    </div>
+    <div class="gmail-meta" style="margin-bottom:6px;">${t.thread.from || ''}</div>
+    <div class="gmail-snippet">${t.thread.snippet || ''}</div>
+    ${fields.length ? `<div class="gmail-parsed"><div class="gmail-parsed-fields">${fields.map(f => `<div class="field-item"><span class="field-val" style="font-size:12px;">${f}</span></div>`).join('')}</div></div>` : ''}
+    ${t.status !== 'saved' ? `<div class="gmail-actions">
+      ${t.status === 'queued' ? `<button class="btn-primary btn-sm" onclick="saveGmailThread(${globalIdx})">Save →</button>` : ''}
+      ${t.status === 'skipped' ? `<button class="btn-ghost btn-sm" onclick="unSkipThread(${globalIdx})">Include</button>` : ''}
+      ${t.status === 'queued' ? `<button class="btn-ghost btn-sm" onclick="skipThread(${globalIdx})">Skip</button>` : ''}
+    </div>` : ''}
+  </div>`;
+}
+
+function skipThread(idx) { gmailThreads[idx].status = 'skipped'; renderGmailThreads(); }
+function unSkipThread(idx) { gmailThreads[idx].status = 'queued'; renderGmailThreads(); }
+
+async function saveGmailThread(idx) {
+  const t = gmailThreads[idx];
+  const p = t.parsed;
+  if (!p || t.status === 'saved') return;
+
+  const pat = localStorage.getItem('crm_pat');
+  const base = localStorage.getItem('crm_base');
+  if (!pat || !base) return;
+
+  const today = p.date || new Date().toISOString().split('T')[0];
+  const contactIdMap = {};
+
+  try {
+    // Create/find contact if we have one
+    if (p.contact_name) {
+      const existing = await findContactByName(pat, base, p.contact_name);
+      if (existing) {
+        contactIdMap[p.contact_name] = existing.id;
+      } else {
+        const cFields = stripEmpty({
+          Name: p.contact_name,
+          Company: p.company || undefined,
+          Type: p.activity_type?.includes('Recruiter') ? 'Recruiter' : 'Company',
+          Status: 'Reached Out'
+        });
+        const cRes = await fetch(`https://api.airtable.com/v0/${base}/Contacts`, {
+          method: 'POST',
+          headers: { 'Authorization': `Bearer ${pat}`, 'Content-Type': 'application/json' },
+          body: JSON.stringify({ fields: cFields })
+        });
+        const cJson = await cRes.json();
+        if (cJson.id) contactIdMap[p.contact_name] = cJson.id;
+      }
+    }
+
+    // Create/update application if we have company + role
+    if (p.company && p.role) {
+      const existing = await findApplicationByCompanyRole(pat, base, p.company, p.role);
+      const appFields = stripEmpty({
+        Company: p.company,
+        Role: p.role,
+        'Current Status': p.status || 'Researching',
+        'Date Applied': p.activity_type === 'Applied' ? today : undefined,
+        Notes: p.notes || undefined
+      });
+      if (existing) {
+        await fetch(`https://api.airtable.com/v0/${base}/Applications/${existing.id}`, {
+          method: 'PATCH',
+          headers: { 'Authorization': `Bearer ${pat}`, 'Content-Type': 'application/json' },
+          body: JSON.stringify({ fields: appFields })
+        });
+      } else {
+        await fetch(`https://api.airtable.com/v0/${base}/Applications`, {
+          method: 'POST',
+          headers: { 'Authorization': `Bearer ${pat}`, 'Content-Type': 'application/json' },
+          body: JSON.stringify({ fields: appFields })
+        });
+      }
+    }
+
+    // Always create Activity Log entry
+    const logFields = stripEmpty({
+      Date: today,
+      'Activity Type': p.activity_type || 'Other',
+      Notes: p.notes || t.thread.snippet || undefined,
+      Outcome: p.summary || undefined,
+      Contact: p.contact_name && contactIdMap[p.contact_name] ? [contactIdMap[p.contact_name]] : undefined
+    });
+    await fetch(`https://api.airtable.com/v0/${base}/Activity%20Log`, {
+      method: 'POST',
+      headers: { 'Authorization': `Bearer ${pat}`, 'Content-Type': 'application/json' },
+      body: JSON.stringify({ fields: logFields })
+    });
+
+    // Create follow-up if needed
+    if (p.follow_up_days && p.contact_name) {
+      const dueDate = new Date();
+      dueDate.setDate(dueDate.getDate() + p.follow_up_days);
+      const fuFields = stripEmpty({
+        'Due Date': dueDate.toISOString().split('T')[0],
+        Who: contactIdMap[p.contact_name] ? [contactIdMap[p.contact_name]] : undefined,
+        Why: `Follow up re: ${p.role || p.summary || t.thread.subject}`,
+        Done: false
+      });
+      await fetch(`https://api.airtable.com/v0/${base}/Follow-ups`, {
+        method: 'POST',
+        headers: { 'Authorization': `Bearer ${pat}`, 'Content-Type': 'application/json' },
+        body: JSON.stringify({ fields: fuFields })
+      });
+    }
+
+    gmailThreads[idx].status = 'saved';
+    renderGmailThreads();
+  } catch(err) {
+    alert('Save failed: ' + err.message);
+  }
+}
+
+async function saveAllQueued() {
+  const queued = gmailThreads.map((t, i) => ({ t, i })).filter(({ t }) => t.status === 'queued');
+  for (const { i } of queued) {
+    await saveGmailThread(i);
+  }
+  document.getElementById('gmailSaveAllBtn').style.display = 'none';
+}
+
+// ─── HELPERS ─────────────────────────────────────────────────────────────────
 async function fetchAllRecords(pat, base, table) {
   const records = [];
   let offset = '';
@@ -747,11 +1301,6 @@ async function fetchAllRecords(pat, base, table) {
     offset = json.offset || '';
   } while (offset);
   return records;
-}
-
-function copyRecap() {
-  const text = document.getElementById('recapOutput').innerText;
-  navigator.clipboard.writeText(text).then(() => alert('Recap copied to clipboard!'));
 }
 </script>
 </body>
