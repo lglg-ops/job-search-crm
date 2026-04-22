@@ -1051,7 +1051,6 @@ async function startGmailSync() {
   gmailThreads = [];
 
   try {
-    // Use Claude with Gmail MCP to fetch Career-labeled threads since July 2025
     status.textContent = 'Fetching threads from Gmail…';
 
     const res = await fetch('https://crm-proxy.liz-l-goodin.workers.dev', {
@@ -1061,17 +1060,19 @@ async function startGmailSync() {
         model: 'claude-sonnet-4-20250514',
         max_tokens: 4000,
         mcp_servers: [{ type: 'url', url: 'https://gmailmcp.googleapis.com/mcp/v1', name: 'gmail-mcp' }],
-        system: `You are a Gmail assistant. Search for emails with the label "Career" (or "careers") received after July 1, 2025. 
-        
-Return ONLY a raw JSON array of thread objects. No markdown, no explanation.
-Each object: { "id": "thread_id", "subject": "subject line", "from": "sender name and email", "date": "YYYY-MM-DD", "snippet": "first 200 chars of body" }
-
-Fetch up to 50 threads. If fewer exist, return what you find. Skip threads already marked as replied-to if possible.`,
+        system: `You are a Gmail assistant. Search for emails with the label "Career" received after July 1, 2025. Return ONLY a raw JSON array of thread objects. No markdown, no explanation. Each object: { "id": "thread_id", "subject": "subject line", "from": "sender name and email", "date": "YYYY-MM-DD", "snippet": "first 200 chars of body" }`,
         messages: [{ role: 'user', content: 'Search my Gmail for all emails with the Career label received after July 1 2025. Return a JSON array of thread objects as instructed.' }]
       })
     });
 
     const data = await res.json();
+
+    // DEBUG: show raw response
+    out.innerHTML = `<pre style="background:#111;border:1px solid #404038;border-radius:6px;padding:16px;font-size:11px;color:#B0A898;overflow:auto;white-space:pre-wrap;">${JSON.stringify(data, null, 2)}</pre>`;
+    btn.textContent = 'Scan Gmail →';
+    btn.disabled = false;
+    return;
+
     // Extract text from response (handles MCP tool use blocks)
     const textBlocks = (data.content || []).filter(b => b.type === 'text').map(b => b.text).join('\n');
     const threads = safeParseJSON(textBlocks);
