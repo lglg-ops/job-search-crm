@@ -1067,12 +1067,6 @@ async function startGmailSync() {
 
     const data = await res.json();
 
-    // DEBUG: show raw response
-    out.innerHTML = `<pre style="background:#111;border:1px solid #404038;border-radius:6px;padding:16px;font-size:11px;color:#B0A898;overflow:auto;white-space:pre-wrap;">${JSON.stringify(data, null, 2)}</pre>`;
-    btn.textContent = 'Scan Gmail →';
-    btn.disabled = false;
-    return;
-
     // Extract text from response (handles MCP tool use blocks)
     const textBlocks = (data.content || []).filter(b => b.type === 'text').map(b => b.text).join('\n');
     const threads = safeParseJSON(textBlocks);
